@@ -1,0 +1,35 @@
+BenchmarkDotNet v0.13.10, Windows 10 (10.0.19045.3693/22H2/2022Update)
+Intel Core i7-4900MQ CPU 2.80GHz (Haswell), 1 CPU, 8 logical and 4 physical cores
+.NET SDK 7.0.102
+  [Host]             : .NET 7.0.2 (7.0.222.60605), X64 RyuJIT AVX2 [AttachedDebugger]
+  Job-BMEHOP         : .NET 7.0.2 (7.0.222.60605), X64 RyuJIT AVX2
+  .NET Framework 4.8 : .NET Framework 4.8.1 (4.8.9195.0), X64 RyuJIT VectorSize=256
+
+
+| Method                           | Runtime            | Mean        | Error     | StdDev     | Median      | Ratio           | RatioSD | Gen0   | Allocated |
+|--------------------------------- |------------------- |------------:|----------:|-----------:|------------:|----------------:|--------:|-------:|----------:|
+| GetProperty                      | .NET 7.0           |   0.8334 ns |        NA |  0.0109 ns |   0.8334 ns |    2.62x faster |   0.06x |      - |         - |
+| SetProperty                      | .NET 7.0           |   2.1799 ns |        NA |  0.0181 ns |   2.1799 ns |        baseline |         |      - |         - |
+| GetPropertyAccessorOld           | .NET 7.0           | 393.4568 ns |        NA |  4.3202 ns | 393.4568 ns |  180.51x slower |   3.48x | 0.0324 |     136 B |
+| SetPropertyAccessorOld           | .NET 7.0           | 391.6086 ns |        NA | 11.4660 ns | 391.6086 ns |  179.63x slower |   3.77x | 0.0324 |     136 B |
+| GetPropertyAccessorStaticGeneric | .NET 7.0           |  31.9809 ns |        NA |  0.1609 ns |  31.9809 ns |   14.67x slower |   0.05x |      - |         - |
+| SetPropertyAccessorStatiGeneric  | .NET 7.0           |  26.7099 ns |        NA |  0.0749 ns |  26.7099 ns |   12.25x slower |   0.07x |      - |         - |
+| GetPropertyAccessorNonStatic     | .NET 7.0           |  31.2404 ns |        NA |  0.1056 ns |  31.2404 ns |   14.33x slower |   0.07x | 0.0153 |      64 B |
+| SetPropertyAccessorNonStatic     | .NET 7.0           |  32.0573 ns |        NA |  0.6405 ns |  32.0573 ns |   14.71x slower |   0.42x | 0.0153 |      64 B |
+| GetPropertyReflection            | .NET 7.0           |  45.2032 ns |        NA |  0.1079 ns |  45.2032 ns |   20.74x slower |   0.12x |      - |         - |
+| SetPropertyReflection            | .NET 7.0           |  72.4568 ns |        NA |  0.0694 ns |  72.4568 ns |   33.24x slower |   0.31x |      - |         - |
+| GetPropertyReflectionCached      | .NET 7.0           |  43.8450 ns |        NA |  0.1348 ns |  43.8450 ns |   20.11x slower |   0.10x |      - |         - |
+| SetPropertyReflectionCached      | .NET 7.0           |  68.7959 ns |        NA |  0.7482 ns |  68.7959 ns |   31.56x slower |   0.60x |      - |         - |
+|                                  |                    |             |           |            |             |                 |         |        |           |
+| GetProperty                      | .NET Framework 4.8 |   0.0054 ns | 0.0083 ns |  0.0078 ns |   0.0000 ns |              NA |      NA |      - |         - |
+| SetProperty                      | .NET Framework 4.8 |   1.8418 ns | 0.0234 ns |  0.0219 ns |   1.8458 ns |        baseline |         |      - |         - |
+| GetPropertyAccessorOld           | .NET Framework 4.8 | 783.2069 ns | 6.9942 ns |  6.5424 ns | 780.6990 ns | 425.308x slower |   6.46x | 0.0324 |     136 B |
+| SetPropertyAccessorOld           | .NET Framework 4.8 | 802.2540 ns | 5.0141 ns |  4.6902 ns | 805.2660 ns | 435.640x slower |   5.19x | 0.0324 |     136 B |
+| GetPropertyAccessorStaticGeneric | .NET Framework 4.8 | 299.0840 ns | 5.4156 ns | 11.6577 ns | 294.0797 ns | 162.486x slower |   7.63x | 0.0153 |      64 B |
+| SetPropertyAccessorStatiGeneric  | .NET Framework 4.8 | 315.9083 ns | 6.7629 ns | 19.8345 ns | 308.4042 ns | 170.562x slower |  10.86x | 0.0153 |      64 B |
+| GetPropertyAccessorNonStatic     | .NET Framework 4.8 |  44.5763 ns | 0.3110 ns |  0.2597 ns |  44.5366 ns |  24.188x slower |   0.34x | 0.0153 |      64 B |
+| SetPropertyAccessorNonStatic     | .NET Framework 4.8 |  47.0327 ns | 0.5523 ns |  0.4896 ns |  47.0356 ns |  25.555x slower |   0.50x | 0.0153 |      64 B |
+| GetPropertyReflection            | .NET Framework 4.8 | 190.0101 ns | 1.7287 ns |  1.6170 ns | 190.7385 ns | 103.182x slower |   1.56x |      - |         - |
+| SetPropertyReflection            | .NET Framework 4.8 | 266.9459 ns | 2.6989 ns |  2.5246 ns | 267.2743 ns | 144.959x slower |   2.19x | 0.0153 |      64 B |
+| GetPropertyReflectionCached      | .NET Framework 4.8 | 184.8795 ns | 1.5493 ns |  1.4493 ns | 184.6203 ns | 100.396x slower |   1.50x |      - |         - |
+| SetPropertyReflectionCached      | .NET Framework 4.8 | 264.9573 ns | 1.7269 ns |  1.6153 ns | 265.5051 ns | 143.879x slower |   1.90x | 0.0153 |      64 B |
